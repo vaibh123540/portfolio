@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* Pixel-art rendering helper */
+.image-pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Floating block animation */
+@keyframes mc-float {
+  0% {
+    transform: translateY(10px);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+}
+
+/* Prevent white background on overscroll */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #020617; /* Deep slate */
+}
