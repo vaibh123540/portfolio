@@ -37,118 +37,235 @@ const bars = [
     title: 'Databases & DevOps',
     icon: Database,
     value: 88,
-    color: 'from-amber-400 to-orange-400',
+    color: 'from-emerald-300 to-amber-300',
   },
 ];
 
-const SkillsSection = () => {
-  return (
-    <section className="space-y-6 md:space-y-8">
-      {/* Crafting table grid */}
-      <div className="relative rounded-[32px] overflow-hidden border border-black/70 shadow-[0_20px_40px_rgba(0,0,0,0.85)]">
-        {/* Crafting table texture */}
-        <div
-          className="
-            absolute inset-0
-            bg-[url('/mc/block_crafting_table.png')]
-            bg-[length:160px_160px]
-            bg-repeat
-            brightness-[1.25] saturate-125
-          "
-        />
-        {/* Soft dark overlay just to keep text readable */}
-        <div className="absolute inset-0 bg-black/40" />
+// shared heading style for the Minecraft-y font
+const mcHeadingFont = {
+  fontFamily:
+    '"Press Start 2P", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+};
 
-        <div className="relative z-10 p-5 sm:p-7 md:p-8 space-y-4 md:space-y-6">
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-[0.15em] uppercase text-slate-50 drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
-              Crafting&nbsp;&nbsp;Table
-            </h2>
-            <span className="inline-flex items-center rounded-full bg-emerald-600 px-4 py-1.5 text-xs sm:text-sm font-mono tracking-[0.18em] uppercase text-emerald-50 shadow-[0_10px_25px_rgba(16,185,129,0.75)] border border-emerald-300/60">
-              Full–stack recipe
+const SkillsSection = () => {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return (
+    <section
+      className={`
+        space-y-4 md:space-y-5
+        transform transition-all duration-700
+        ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}
+      `}
+    >
+      {/* Header row */}
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+        <div>
+          {/* small label in MC font */}
+          <p
+            className="text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-emerald-300/80"
+            style={{
+              ...mcHeadingFont,
+              textShadow: '0 0 6px rgba(16,185,129,0.9)',
+            }}
+          >
+            SKILLS & STACK
+          </p>
+
+          <h2 className="mt-1 flex items-center gap-2 text-slate-50 drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-black/60 border border-emerald-400/70 shadow-[0_0_18px_rgba(34,197,94,0.5)]">
+              <Code2 className="h-4 w-4 text-emerald-300" />
+            </span>
+            {/* main heading in MC font */}
+            <span
+              className="text-[15px] sm:text-[18px] md:text-[20px] uppercase tracking-[0.18em]"
+              style={{
+                ...mcHeadingFont,
+                textShadow: '0 0 8px rgba(16,185,129,0.95)',
+              }}
+            >
+              CRAFTING TABLE
+            </span>
+          </h2>
+        </div>
+
+        {/* Recipe text – keep normal font, acts as subtitle */}
+        <div className="flex items-center gap-2 text-[11px] sm:text-xs font-mono text-slate-100">
+          <span className="text-emerald-300 uppercase tracking-[0.22em]">
+            Recipe
+          </span>
+          <span className="text-slate-200">
+            Production-ready full-stack app
+          </span>
+        </div>
+      </div>
+
+      {/* Grid + bars directly on the plank texture (no big transparent slab) */}
+      <div className="grid gap-5 md:gap-6 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-start">
+        {/* Left: 3x3 crafting grid using hotbar slots */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            {/* section label in MC font */}
+            <h3
+              className="text-[11px] sm:text-xs font-semibold text-slate-50 uppercase tracking-[0.16em]"
+              style={{
+                ...mcHeadingFont,
+                textShadow: '0 0 6px rgba(0,0,0,0.9)',
+              }}
+            >
+              3×3 CRAFTING GRID
+            </h3>
+            <span className="text-[11px] font-mono text-slate-200/90">
+              each slot = core tool
             </span>
           </div>
 
-          <div className="rounded-[24px] border border-white/5 bg-black/40 p-4 md:p-5">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
-              {craftingSkills.map((skill) => (
+          <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
+            {craftingSkills.map((skill, index) => (
+              <div
+                key={skill.name}
+                style={{ transitionDelay: `${80 + index * 40}ms` }}
+                className={`
+                  group relative aspect-square rounded-2xl overflow-hidden
+                  border border-black/80
+                  shadow-[0_12px_24px_rgba(0,0,0,0.9)]
+                  transform transition-all duration-500
+                  hover:-translate-y-1 hover:shadow-[0_18px_28px_rgba(0,0,0,0.95)]
+                  ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
+                `}
+              >
+                {/* Hotbar slot background */}
                 <div
-                  key={skill.name}
-                  className="relative rounded-2xl border border-white/10 bg-black/45 px-4 py-3 flex flex-col gap-2 shadow-[0_10px_22px_rgba(0,0,0,0.8)]"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="inline-block h-3 w-3 rounded-sm shadow-[0_0_0_2px_rgba(0,0,0,0.8)]"
-                        style={{ backgroundColor: skill.color }}
-                      />
-                      <span className="text-sm font-semibold text-slate-50 font-mono">
-                        {skill.name}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex gap-[3px]">
+                  className="
+                    absolute inset-0
+                    bg-[url('/mc/hotbar_slot.png')]
+                    bg-[length:100%_100%]
+                    image-pixelated
+                    opacity-95
+                  "
+                />
+
+                {/* Content */}
+                <div className="relative z-10 flex flex-col items-center justify-center h-full px-2 text-center">
+                  {/* colored “item” square */}
+                  <div
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-[6px] border border-black/80 shadow-[0_0_0_1px_rgba(0,0,0,0.9)] mb-1.5"
+                    style={{ backgroundColor: skill.color }}
+                  />
+
+                  <span className="text-[11px] sm:text-xs font-mono font-semibold text-slate-50">
+                    {skill.name}
+                  </span>
+
+                  <div className="mt-1 flex gap-[3px]">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <span
                         key={i}
-                        className="h-3 w-3 rounded-[3px] bg-black/40 border border-black/70 shadow-[0_0_0_1px_rgba(0,0,0,0.9)]"
+                        className="h-[7px] w-[7px] rounded-[2px] border border-black/80 bg-black/60"
                         style={
                           i < skill.level
-                            ? {
-                                backgroundColor: skill.color,
-                                boxShadow:
-                                  '0 0 10px rgba(56,189,248,0.6), 0 0 0 1px rgba(0,0,0,0.9)',
-                              }
+                            ? { backgroundColor: skill.color }
                             : undefined
                         }
                       />
                     ))}
                   </div>
-                </div>
-              ))}
-            </div>
 
-            <div className="mt-4 text-[11px] sm:text-xs font-mono text-slate-200/80 flex items-center justify-between">
-              <span>3×3 grid • Minecraft color palette</span>
-              <span className="text-emerald-300">
-                result: full–stack dev (enchanted ✨)
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Skill progress bars on slightly darker overlay, no giant slab */}
-      <div className="grid gap-4 md:grid-cols-2">
-        {bars.map((bar) => (
-          <div
-            key={bar.title}
-            className="relative rounded-2xl overflow-hidden border border-black/70 bg-black/55 shadow-[0_16px_32px_rgba(0,0,0,0.9)]"
-          >
-            <div className="relative z-10 p-4 sm:p-5 space-y-3">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-black/50 border border-white/10">
-                    <bar.icon className="h-4 w-4 text-sky-300" />
+                  <span className="mt-1 text-[10px] sm:text-[11px] font-mono text-slate-200">
+                    Lv.{skill.level} / 5
                   </span>
-                  <h3 className="text-sm sm:text-base font-semibold text-slate-50">
-                    {bar.title}
-                  </h3>
                 </div>
-                <span className="text-xs font-mono text-slate-200">
-                  {bar.value}%
-                </span>
               </div>
-
-              <div className="h-3 rounded-full bg-black/60 border border-black/80 overflow-hidden">
-                <div
-                  className={`h-full rounded-full bg-gradient-to-r ${bar.color} shadow-[0_0_12px_rgba(56,189,248,0.7)]`}
-                  style={{ width: `${bar.value}%` }}
-                />
-              </div>
-            </div>
+            ))}
           </div>
-        ))}
+
+          <p className="text-[11px] sm:text-xs font-mono text-slate-200/85 mt-1">
+            Pick any row: UI, backend, or infra — each crafts a solid piece of
+            the stack.
+          </p>
+        </div>
+
+        {/* Right: Specialization bars (wood texture background) */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between gap-3">
+            {/* section label in MC font */}
+            <h3
+              className="text-[11px] sm:text-xs font-semibold text-slate-50 uppercase tracking-[0.16em]"
+              style={{
+                ...mcHeadingFont,
+                textShadow: '0 0 6px rgba(0,0,0,0.9)',
+              }}
+            >
+              SPECIALIZATIONS
+            </h3>
+            <span className="text-[11px] font-mono text-slate-300">
+              overall proficiency
+            </span>
+          </div>
+
+          <div className="space-y-3.5">
+            {bars.map((bar, index) => {
+              const Icon = bar.icon;
+              return (
+                <div
+                  key={bar.title}
+                  style={{
+                    transitionDelay: `${140 + index * 80}ms`,
+                    backgroundImage: "url('/mc/skills_wood.png')", // your wood asset
+                    backgroundSize: '128px 128px',
+                    backgroundRepeat: 'repeat',
+                    imageRendering: 'pixelated',
+                  }}
+                  className={`
+                    relative overflow-hidden rounded-xl
+                    border border-black/80
+                    shadow-[0_14px_26px_rgba(0,0,0,0.9)]
+                    px-3.5 py-3
+                    transform transition-all duration-500
+                    hover:-translate-y-0.5 hover:shadow-[0_18px_30px_rgba(0,0,0,0.95)]
+                    ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
+                  `}
+                >
+                  <div className="pointer-events-none absolute inset-0 bg-black/40" />
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-black/70 border border-white/10">
+                          <Icon className="h-4 w-4 text-emerald-300" />
+                        </span>
+                        <h4 className="text-xs sm:text-sm font-semibold text-slate-50">
+                          {bar.title}
+                        </h4>
+                      </div>
+                      <span className="text-[11px] font-mono text-slate-200">
+                        {bar.value}%
+                      </span>
+                    </div>
+
+                    <div className="h-2.5 rounded-full bg-black/70 border border-black/80 overflow-hidden">
+                      <div
+                        className={`
+                          h-full rounded-full bg-gradient-to-r ${bar.color}
+                          shadow-[0_0_10px_rgba(34,197,94,0.6)]
+                          transition-all duration-700
+                        `}
+                        style={{ width: mounted ? `${bar.value}%` : '0%' }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <p className="text-[11px] sm:text-xs font-mono text-emerald-300/90">
+            combine all 3 rows → full-stack build unlocked ✨
+          </p>
+        </div>
       </div>
     </section>
   );

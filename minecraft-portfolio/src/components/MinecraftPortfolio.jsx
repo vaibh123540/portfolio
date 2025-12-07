@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AboutSection from './minecraft/sections/AboutSection.jsx';
 import SkillsSection from './minecraft/sections/SkillsSection.jsx';
 import ProjectsSection from './minecraft/sections/ProjectsSection.jsx';
@@ -15,15 +15,15 @@ const PixelPanel = ({ children, texture = 'stone' }) => {
     deepslate: '/mc/deepslate_tiles.png',
     amethyst: '/mc/amethyst_block.png',
     planks: '/mc/spruce_planks.png',
+    crying: '/mc/obsidian.png',
   };
 
   const textureSrc = textureMap[texture] ?? textureMap.stone;
 
   return (
     <div className="relative rounded-3xl border border-black/60 bg-black/40 overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
-      {/* Block texture */}
       <div
-        className="absolute inset-0 opacity-75"
+        className="absolute inset-0 opacity-100"
         style={{
           backgroundImage: `url(${textureSrc})`,
           backgroundSize: '128px 128px',
@@ -31,17 +31,11 @@ const PixelPanel = ({ children, texture = 'stone' }) => {
           imageRendering: 'pixelated',
         }}
       />
-
-      {/* MUCH lighter overlay just for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/40" />
-
-      <div className="relative z-10 p-4 sm:p-6 md:p-8">
-        {children}
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/5 to-black/30" />
+      <div className="relative z-10 p-4 sm:p-6 md:p-8">{children}</div>
     </div>
   );
 };
-
 
 const MinecraftButton = ({
   label,
@@ -57,7 +51,6 @@ const MinecraftButton = ({
       active ? 'scale-110' : 'hover:scale-105'
     }`}
   >
-    {/* Slot + icon */}
     <div className="relative w-14 h-14 sm:w-16 sm:h-16">
       <img
         src="/mc/hotbar_slot.png"
@@ -75,7 +68,6 @@ const MinecraftButton = ({
       )}
     </div>
 
-    {/* Minecraft-style item tooltip */}
     <div
       className="
         pointer-events-none
@@ -158,27 +150,62 @@ const MinecraftPortfolio = () => {
   const [xp, setXp] = useState(750);
   const [achievement, setAchievement] = useState(null);
   const [visitedSections, setVisitedSections] = useState({ about: true });
+  const [allSectionsUnlocked, setAllSectionsUnlocked] = useState(false);
+
+  // 🔊 hotbar click sound
+  const clickAudioRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const audio = new Audio('/sounds/ui_click.mp3');
+      audio.volume = 0.6;
+      clickAudioRef.current = audio;
+    } catch {
+      // ignore if Audio not available
+    }
+    return () => {
+      if (clickAudioRef.current) {
+        clickAudioRef.current.pause();
+        clickAudioRef.current.currentTime = 0;
+      }
+    };
+  }, []);
 
   // HUD values (test values)
   const hearts = 10;
   const armor = 10;
   const hunger = 10;
-  const level = 37;
+  const level = 19;
   const xpPercent = (xp / 1000) * 100;
 
   const handleSectionChange = (id) => {
     if (id === activeSection) return;
 
-    const meta = sectionList.find((s) => s.id === id);
+    // 🔊 play click sound when switching sections
+    if (clickAudioRef.current) {
+      try {
+        const a = clickAudioRef.current;
+        a.currentTime = 0;
+        a.play().catch(() => {});
+      } catch {
+        // noop
+      }
+    }
 
-    // first-time visit => show advancement toast
     setVisitedSections((prev) => {
       if (prev[id]) return prev;
+
       const next = { ...prev, [id]: true };
-      setAchievement({
-        title: 'Advancement made!',
-        message: `Visited ${meta?.label || id} section for the first time.`,
-      });
+      const allVisited = sectionList.every((s) => next[s.id]);
+
+      if (allVisited && !allSectionsUnlocked) {
+        setAllSectionsUnlocked(true);
+        setAchievement({
+          title: 'Challenge Complete!',
+          message: 'You explored every section of the portfolio.',
+        });
+      }
+
       return next;
     });
 
@@ -188,10 +215,9 @@ const MinecraftPortfolio = () => {
 
   const ActiveSectionComponent = sectionComponents[activeSection];
 
-  // choose panel texture based on current section
   const panelTexture =
     activeSection === 'skills'
-      ? 'crafting'
+      ? 'planks'
       : activeSection === 'projects'
       ? 'chest'
       : activeSection === 'experience'
@@ -199,7 +225,7 @@ const MinecraftPortfolio = () => {
       : activeSection === 'achievements'
       ? 'amethyst'
       : activeSection === 'contact'
-      ? 'planks'
+      ? 'crying'
       : 'stone';
 
   return (
@@ -214,7 +240,6 @@ const MinecraftPortfolio = () => {
           'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
       }}
     >
-      {/* Advancement toast (top-right) */}
       <AchievementToast
         achievement={achievement}
         onClose={() => setAchievement(null)}
@@ -254,14 +279,11 @@ const MinecraftPortfolio = () => {
         </PixelPanel>
       </main>
 
-      {/* HUD (hearts/armor + hunger aligned to XP bar, hotbar below) */}
+      {/* HUD + Hotbar */}
       <div className="fixed inset-x-0 bottom-0 z-30 flex flex-col items-center gap-2 pb-3 sm:pb-4 pointer-events-none">
-        {/* Stats + XP bar share same width */}
         <div className="pointer-events-auto w-full flex justify-center">
           <div className="w-full max-w-xl px-4">
-            {/* Top row: armor+hearts (left), level (center), hunger (right) */}
             <div className="flex items-end justify-between mb-1">
-              {/* Left: armor + hearts */}
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-[3px]">
                   {Array.from({ length: 10 }).map((_, i) => (
@@ -293,14 +315,12 @@ const MinecraftPortfolio = () => {
                 </div>
               </div>
 
-              {/* Center: level number */}
               <div className="flex items-center justify-center pb-[2px]">
                 <span className="text-[#A3E635] font-bold text-sm sm:text-base font-mono drop-shadow">
                   {level}
                 </span>
               </div>
 
-              {/* Right: hunger */}
               <div className="flex flex-col gap-1">
                 <div className="flex items-center justify-end gap-[3px]">
                   {Array.from({ length: 10 }).map((_, i) => (
@@ -319,7 +339,6 @@ const MinecraftPortfolio = () => {
               </div>
             </div>
 
-            {/* XP bar – same width as row above */}
             <div className="h-[10px] bg-black/80 border border-[#15803D] rounded-sm overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-[#22C55E] to-[#16A34A] shadow-[0_0_12px_rgba(34,197,94,0.8)]"
@@ -329,7 +348,6 @@ const MinecraftPortfolio = () => {
           </div>
         </div>
 
-        {/* Hotbar (centered under XP bar) */}
         <nav className="pointer-events-auto w-full flex justify-center">
           <div className="inline-flex rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 gap-3 sm:gap-4 backdrop-blur-xl">
             {sectionList.map((section) => (
