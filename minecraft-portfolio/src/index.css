@@ -9,6 +9,39 @@
   image-rendering: crisp-edges;
 }
 
+/* =========================================
+   CUSTOM MINECRAFT SCROLLBAR
+   ========================================= */
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: #0b0b0b; /* Dark background */
+  border-left: 2px solid #222;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #585858; /* Stone grey */
+  border: 2px solid;
+  border-color: #8b8b8b #2b2b2b #2b2b2b #8b8b8b; /* Bevel effect */
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: #444;
+}
+
+/* Global Font Override for that "Console" feel */
+body {
+  font-family: 'VT323', monospace; 
+  font-size: 18px; /* VT323 is slightly smaller, so we bump base size */
+  margin: 0;
+  background-color: #020617;
+  overflow-y: scroll; /* Always show scrollbar to prevent layout shift */
+}
+
+/* Force specific headers to keep the blocky font */
+h1, h2, h3, h4, h5, h6, .font-mc {
+  font-family: 'Press Start 2P', system-ui, cursive;
+}
+
 /* ===========================
    Enchanting cards shimmer
    =========================== */
