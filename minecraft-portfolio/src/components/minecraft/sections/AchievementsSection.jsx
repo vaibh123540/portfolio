@@ -1,26 +1,34 @@
+// src/components/minecraft/sections/AchievementsSection.jsx
 import React from 'react';
 
 const ENCHANTS = [
   {
-    id: 'code-warrior',
-    glyph: 'ᚠᛚᚨᛗᛟ',
-    title: 'Code Warrior',
-    desc: '500+ commits this year and counting.',
+    id: 'rl-spec',
+    glyph: 'ᚱᛚ ᚨᛁ', // "RL AI" loosely in runes
+    title: 'RL Specialist',
+    desc: 'Completed 3-course specialization in Reinforcement Learning (Prediction, Control, Function Approx).',
     level: 'III',
   },
   {
-    id: 'bug-slayer',
-    glyph: 'ᛒᚢᚷ ᛋᛚᚨᛃ',
-    title: 'Bug Slayer',
-    desc: 'Crushed 100+ critical bugs across production systems.',
-    level: 'II',
+    id: 'full-stack',
+    glyph: 'ᚹᛖᛒ ᛞᛖᚹ', // "WEB DEV"
+    title: 'Full Stack Open',
+    desc: 'Certified by U. Helsinki in modern web architecture (React, Node, GraphQL, CI/CD).',
+    level: 'V',
   },
   {
-    id: 'team-captain',
-    glyph: 'ᚲᚨᛈᛏᚨᛁᚾ',
-    title: 'Team Captain',
-    desc: 'Led over 10 successful feature launches with cross-functional teams.',
-    level: 'III',
+    id: 'academic',
+    glyph: 'ᚷᛈᚨ ᛏᚨ', // "GPA TA"
+    title: 'High Distinction',
+    desc: 'Maintained 3.65/4.00 GPA while mentoring 400+ students as a Teaching Assistant.',
+    level: 'IV',
+  },
+  {
+    id: 'unity',
+    glyph: 'ᚷᚨᛗᛖ', // "GAME"
+    title: 'Unity Essentials',
+    desc: 'Mastered real-time 3D rendering, physics engines, and C# scripting patterns.',
+    level: 'I',
   },
 ];
 
@@ -52,7 +60,7 @@ const AchievementsSection = () => {
         ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}
       `}
     >
-      {/* optional floating glyph ambience; safe, no blur */}
+      {/* optional floating glyph ambience */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-40">
         <span className="mc-glyph mc-glyph-1">ᚠ</span>
         <span className="mc-glyph mc-glyph-2">ᛃ</span>
@@ -89,7 +97,7 @@ const AchievementsSection = () => {
                 className="mt-2 text-lg sm:text-xl font-extrabold text-slate-50"
                 style={baseTextShadow}
               >
-                Achievements
+                Certifications
               </h3>
             </div>
 
@@ -97,8 +105,7 @@ const AchievementsSection = () => {
               className="text-xs sm:text-sm text-purple-100/90 leading-relaxed"
               style={baseTextShadow}
             >
-              These enchantments capture how I level up codebases, teams, and
-              production systems — pick one to see the effect.
+              Unlocked knowledge nodes from University of Alberta, U. Helsinki, and Unity.
             </p>
 
             <div className="mt-2 flex items-center gap-4">
@@ -121,17 +128,13 @@ const AchievementsSection = () => {
                 <div style={baseTextShadow}>
                   Item:{' '}
                   <span className="font-semibold text-slate-50">
-                    Portfolio Book
+                    CS Degree
                   </span>
-                </div>
-                <div style={baseTextShadow}>
-                  Lapis cost:{' '}
-                  <span className="font-semibold text-sky-300">3–5</span>
                 </div>
                 <div style={baseTextShadow}>
                   Result:{' '}
                   <span className="font-semibold" style={enchantedGlow}>
-                    Upgraded teammate ✨
+                    Software Eng. IV
                   </span>
                 </div>
               </div>
@@ -142,7 +145,7 @@ const AchievementsSection = () => {
         {/* RIGHT: enchantment cards in 2-col grid */}
         <div className="flex-1">
           <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
-            {ENCHANTS.map((e, index) => (
+            {ENCHANTS.map((e) => (
               <div
                 key={e.id}
                 style={bookshelfStyle}
@@ -155,15 +158,16 @@ const AchievementsSection = () => {
                   ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
                   hover:scale-[1.01]
                   hover:shadow-[0_0_12px_3px_#8e6dfd]
+                  group
                 `}
               >
                 {/* single dark overlay – NO blur */}
-                <div className="absolute inset-0 bg-[rgba(0,0,0,0.55)]" />
+                <div className="absolute inset-0 bg-[rgba(0,0,0,0.55)] transition-colors duration-300 group-hover:bg-[rgba(0,0,0,0.45)]" />
 
                 <div className="relative z-10 px-4 py-3 sm:px-5 sm:py-4">
                   <div className="flex items-center justify-between gap-2 mb-1.5">
                     <div
-                      className="text-[10px] sm:text-[11px] text-indigo-200 font-mono tracking-[0.3em] uppercase"
+                      className="text-[10px] sm:text-[11px] text-indigo-200 font-mono tracking-[0.3em] uppercase opacity-70"
                       style={baseTextShadow}
                     >
                       {e.glyph}

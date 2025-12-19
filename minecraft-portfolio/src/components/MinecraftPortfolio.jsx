@@ -1,3 +1,4 @@
+// src/components/MinecraftPortfolio.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import AboutSection from './minecraft/sections/AboutSection.jsx';
 import SkillsSection from './minecraft/sections/SkillsSection.jsx';
@@ -143,13 +144,56 @@ const sectionComponents = {
   contact: ContactSection,
 };
 
+// UPDATED ORDER: About -> Experience (Axe) -> Projects -> Skills (Shovel)
 const sectionList = [
-  { id: 'about', label: 'About', iconSrc: '/mc/diamond_sword.png', tooltipTitle: 'Player Profile', tooltipDesc: 'Base stats & bio', rarity: 'Common' },
-  { id: 'skills', label: 'Skills', iconSrc: '/mc/diamond_axe.png', tooltipTitle: 'Skill Tree', tooltipDesc: 'Unlocked abilities', rarity: 'Rare' },
-  { id: 'projects', label: 'Projects', iconSrc: '/mc/diamond_pickaxe.png', tooltipTitle: 'Build History', tooltipDesc: 'Shipped code', rarity: 'Epic' },
-  { id: 'experience', label: 'Experience', iconSrc: '/mc/diamond_shovel.png', tooltipTitle: 'Adventure Log', tooltipDesc: 'Previous quests', rarity: 'Uncommon' },
-  { id: 'achievements', label: 'Achievements', iconSrc: '/mc/emerald.png', tooltipTitle: 'Advancements', tooltipDesc: 'Trophies collected', rarity: 'Legendary' },
-  { id: 'contact', label: 'Contact', iconSrc: '/mc/book_and_quill.png', tooltipTitle: 'Direct Message', tooltipDesc: 'Trade offer', rarity: 'Common' },
+  { 
+    id: 'about', 
+    label: 'About', 
+    iconSrc: '/mc/diamond_sword.png', 
+    tooltipTitle: 'Player Profile', 
+    tooltipDesc: 'Base stats & bio', 
+    rarity: 'Common' 
+  },
+  { 
+    id: 'experience', // Swapped from position 4 
+    label: 'Experience', 
+    iconSrc: '/mc/diamond_axe.png', // Kept Icon (Axe)
+    tooltipTitle: 'Adventure Log', 
+    tooltipDesc: 'Previous quests', 
+    rarity: 'Uncommon' 
+  },
+  { 
+    id: 'projects', 
+    label: 'Projects', 
+    iconSrc: '/mc/diamond_pickaxe.png', 
+    tooltipTitle: 'Build History', 
+    tooltipDesc: 'Shipped code', 
+    rarity: 'Epic' 
+  },
+  { 
+    id: 'skills', // Swapped from position 2
+    label: 'Skills', 
+    iconSrc: '/mc/diamond_shovel.png', // Kept Icon (Shovel)
+    tooltipTitle: 'Skill Tree', 
+    tooltipDesc: 'Unlocked abilities', 
+    rarity: 'Rare' 
+  },
+  { 
+    id: 'achievements', 
+    label: 'Achievements', 
+    iconSrc: '/mc/emerald.png', 
+    tooltipTitle: 'Advancements', 
+    tooltipDesc: 'Trophies collected', 
+    rarity: 'Legendary' 
+  },
+  { 
+    id: 'contact', 
+    label: 'Contact', 
+    iconSrc: '/mc/book_and_quill.png', 
+    tooltipTitle: 'Direct Message', 
+    tooltipDesc: 'Trade offer', 
+    rarity: 'Common' 
+  },
 ];
 
 const MinecraftPortfolio = () => {
@@ -215,7 +259,7 @@ const MinecraftPortfolio = () => {
     <div className="min-h-screen w-full text-white relative overflow-hidden bg-[#020617]"
          style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       
-      {/* 1. ANIMATED BACKGROUND VIDEO - NO OVERLAY */}
+      {/* 1. ANIMATED BACKGROUND VIDEO - Reverted to Simple Loop */}
       <div className="absolute inset-0 z-0">
         <video 
           autoPlay 
@@ -239,13 +283,18 @@ const MinecraftPortfolio = () => {
               <img src="/mc/avatar.png" alt="Minecraft avatar" className="w-full h-full object-cover image-pixelated" />
             </div>
             <div>
-              <p className="text-[11px] sm:text-xs text-gray-300 font-mono uppercase tracking-[0.18em]">Full Stack Developer</p>
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight drop-shadow-xl">Minecraft-Themed Portfolio</h1>
+              {/* White Text + Drop Shadow for readability */}
+              <p className="text-[11px] sm:text-xs text-white font-mono uppercase tracking-[0.18em] drop-shadow-[0_2px_2px_rgba(0,0,0,1)]">
+                Vaibhav Jain
+              </p>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white drop-shadow-[0_3px_3px_rgba(0,0,0,0.9)]">
+                My Portfolio
+              </h1>
             </div>
           </div>
           <div className="hidden sm:flex flex-col items-end gap-1 text-xs font-mono">
-            <span className="text-gray-300">Biome: VS Code Plains</span>
-            <span className="text-gray-400">Mode: Survival (Prod)</span>
+             <span className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Biome: Main Branch</span>
+             <span className="text-gray-200 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Mode: Survival (Prod)</span>
           </div>
         </div>
       </header>

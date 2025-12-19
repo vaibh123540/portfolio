@@ -23,7 +23,7 @@ const AchievementToast = ({ achievement, onClose }) => {
 
     try {
       audio = new Audio(AUDIO_PATH);
-      audio.volume = 0.85;
+      audio.volume = 0.3;
 
       const handleEnded = () => {
         finish();

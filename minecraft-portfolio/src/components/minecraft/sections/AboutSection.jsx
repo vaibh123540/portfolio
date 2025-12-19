@@ -1,11 +1,13 @@
+// src/components/minecraft/sections/AboutSection.jsx
 import React from 'react';
-import { User, Target, Award, Briefcase } from 'lucide-react';
+import { User, Target, Award, BookOpen } from 'lucide-react';
 import PlayerAvatar from '../ui/PlayerAvatar.jsx';
 
+// Data derived from your resume and certificates
 const STATS = [
-  { label: 'Projects Shipped', value: '50+', icon: Target },
-  { label: 'Years of XP', value: '5+', icon: Award },
-  { label: 'Cups of Coffee', value: '∞', icon: Briefcase },
+  { label: 'Project Count', value: '10+', icon: Target }, // Includes your 5 listed major projects + hackathons
+  { label: 'Certifications', value: '5', icon: Award },  // 3 RL, 1 Full Stack Open, 1 Unity
+  { label: 'GPA Level', value: '3.65', icon: BookOpen }, // From UAlberta Education section
 ];
 
 const AboutSection = () => {
@@ -31,25 +33,23 @@ const AboutSection = () => {
             style={{ fontFamily: '"Press Start 2P", cursive' }}
           >
             <User size={26} className="text-[#22C55E]" />
-            <span>Hello, World!</span>
+            <span>Hello, I'm Vaibhav!</span>
           </h3>
           
-          <div className="space-y-4 font-pixel-text text-[#E5E7EB] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+          <div className="space-y-4 font-pixel-text text-[#E5E7EB] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-relaxed">
             <p>
-              I&apos;m a{' '}
-              <span className="text-[#FACC15] font-semibold border-b-2 border-[#FACC15]/40">Full Stack Developer</span>{' '}
-              who builds software the way you build in Minecraft — one block at a time, with
-              precision, creativity, and a bit of grinding.
+              I&apos;m a third year{' '}
+              <span className="text-[#FACC15] font-semibold border-b-2 border-[#FACC15]/40">Computing Science Student</span>{' '}
+              (Specialization) at the University of Alberta.
             </p>
             <p>
-              I love crafting clean interfaces, scalable backends, and delightful user
-              experiences. When I&apos;m not coding, I&apos;m probably exploring new tech,
-              contributing to open source, or mining for diamonds in survival mode.
+              Currently, I&apos;m a <strong>Teaching Assistant</strong> helping 400+ students debug C code on Unix. I have a passion for software development, reinforcement learning and low-level programming.
             </p>
           </div>
         </div>
         
         <div className="flex justify-center md:justify-end">
+          {/* Avatar Component */}
           <PlayerAvatar size="lg" />
         </div>
       </div>
@@ -61,7 +61,7 @@ const AboutSection = () => {
             key={stat.label}
             style={{ 
               transitionDelay: `${150 + index * 100}ms`,
-              backgroundImage: 'url(/mc/grass_block_top.png)', // Using the requested texture
+              backgroundImage: 'url(/mc/grass_block_top.png)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               imageRendering: 'pixelated'

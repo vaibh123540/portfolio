@@ -1,5 +1,5 @@
 // src/components/minecraft/sections/ContactSection.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Github, Linkedin, Book } from 'lucide-react';
 
 const blackstoneStyle = {
@@ -18,7 +18,7 @@ const cryingTextureStyle = {
   imageRendering: 'pixelated',
 };
 
-// Small Minecraft-style label (same font vibe as Achievements section)
+// Small Minecraft-style label
 const MinecraftLabel = ({ children }) => (
   <span
     className="
@@ -40,11 +40,29 @@ const MinecraftLabel = ({ children }) => (
 );
 
 const ContactSection = () => {
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleSend = (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) {
+      alert("Please fill out all fields to cast the spell!");
+      return;
+    }
+    
+    const subject = `Quest Inquiry from ${formData.name}`;
+    const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
+    
+    // Open default mail client
+    window.location.href = `mailto:vjain3@ualberta.ca?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    // Reset form
+    setFormData({ name: '', email: '', message: '' });
+  };
 
   return (
     <section
@@ -88,7 +106,7 @@ const ContactSection = () => {
               {/* Minecraft-style label */}
               <MinecraftLabel>COMMUNICATION HUB</MinecraftLabel>
 
-              {/* Header in the same font style as Code Warrior / Bug Slayer */}
+              {/* Header */}
               <h3
                 className="text-[13px] sm:text-sm md:text-base text-cyan-200 mt-1"
                 style={{
@@ -105,61 +123,60 @@ const ContactSection = () => {
                 className="mt-3 text-sm sm:text-base text-slate-100 leading-relaxed"
                 style={{ textShadow: '0 0 4px rgba(0,0,0,0.7)' }}
               >
-                You&apos;ve reached the{' '}
-                <span className="text-fuchsia-300">
-                  Crying Obsidian command console
-                </span>
-                . Send a ping, start a quest, or just say hi — I&apos;m always up for
-                building something clever, weird, or wonderfully over-engineered.
+                You&apos;ve reached the final section of the portfolio. Whether it's a Full Stack role, an AI collaboration, or just a chat - I&apos;m always ready for a new experience. Just enter through the nether portal :D
               </p>
             </div>
           </div>
 
           <div className="space-y-3 text-sm sm:text-base">
-            <button
-              type="button"
+            <a
+              href="mailto:vjain3@ualberta.ca"
               className="group flex items-center gap-3 text-slate-100 transition-transform hover:translate-x-0.5"
             >
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-black/70 border border-cyan-400/70 shadow-[0_0_12px_rgba(34,211,238,0.7)]">
                 <Mail className="h-4 w-4 text-cyan-300" />
               </span>
               <span
-                className="font-mono text-xs sm:text-sm"
+                className="font-mono text-xs sm:text-sm group-hover:text-cyan-200 transition-colors"
                 style={{ textShadow: '0 0 4px rgba(0,0,0,0.7)' }}
               >
-                youremail@example.com
+                vjain3@ualberta.ca
               </span>
-            </button>
+            </a>
 
-            <button
-              type="button"
+            <a
+              href="https://github.com/vaibh123540"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex items-center gap-3 text-slate-100 transition-transform hover:translate-x-0.5"
             >
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-black/70 border border-emerald-400/70 shadow-[0_0_12px_rgba(52,211,153,0.7)]">
                 <Github className="h-4 w-4 text-emerald-300" />
               </span>
               <span
-                className="font-mono text-xs sm:text-sm"
+                className="font-mono text-xs sm:text-sm group-hover:text-emerald-200 transition-colors"
                 style={{ textShadow: '0 0 4px rgba(0,0,0,0.7)' }}
               >
-                github.com/your-handle
+                github.com/vaibh123540
               </span>
-            </button>
+            </a>
 
-            <button
-              type="button"
+            <a
+              href="https://www.linkedin.com/in/vjain3/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex items-center gap-3 text-slate-100 transition-transform hover:translate-x-0.5"
             >
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-black/70 border border-sky-400/70 shadow-[0_0_12px_rgba(56,189,248,0.7)]">
                 <Linkedin className="h-4 w-4 text-sky-300" />
               </span>
               <span
-                className="font-mono text-xs sm:text-sm"
+                className="font-mono text-xs sm:text-sm group-hover:text-sky-200 transition-colors"
                 style={{ textShadow: '0 0 4px rgba(0,0,0,0.7)' }}
               >
-                linkedin.com/in/your-handle
+                linkedin.com/in/vjain3
               </span>
-            </button>
+            </a>
           </div>
 
           <p
@@ -168,7 +185,7 @@ const ContactSection = () => {
           >
             <Book className="h-3.5 w-3.5 text-fuchsia-300" />
             <span>
-              Bonus: mention your favourite Minecraft block in the subject line.
+              Bonus: mention your favorite Minecraft block in the message.
             </span>
           </p>
         </div>
@@ -210,7 +227,7 @@ const ContactSection = () => {
               </div>
 
               <form
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={handleSend}
                 className="space-y-3 sm:space-y-4 text-sm sm:text-base"
               >
                 <div className="space-y-1">
@@ -221,6 +238,8 @@ const ContactSection = () => {
                     Name
                   </label>
                   <input
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
                     className="
                       w-full rounded-xl px-3 py-2
                       bg-black/70 border border-slate-700
@@ -230,7 +249,7 @@ const ContactSection = () => {
                       focus:shadow-[0_0_12px_rgba(56,189,248,0.9)]
                       transition-colors transition-shadow
                     "
-                    placeholder="Steve / Alex / You"
+                    placeholder="Alex/Steve"
                   />
                 </div>
 
@@ -242,6 +261,9 @@ const ContactSection = () => {
                     Email
                   </label>
                   <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
                     className="
                       w-full rounded-xl px-3 py-2
                       bg-black/70 border border-slate-700
@@ -251,7 +273,7 @@ const ContactSection = () => {
                       focus:shadow-[0_0_12px_rgba(56,189,248,0.9)]
                       transition-colors transition-shadow
                     "
-                    placeholder="you@example.com"
+                    placeholder="your@email.com"
                   />
                 </div>
 
@@ -264,6 +286,8 @@ const ContactSection = () => {
                   </label>
                   <textarea
                     rows={4}
+                    value={formData.message}
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
                     className="
                       w-full rounded-xl px-3 py-2
                       bg-black/70 border border-slate-700
@@ -274,7 +298,7 @@ const ContactSection = () => {
                       transition-colors transition-shadow
                       resize-none
                     "
-                    placeholder="What quest are we taking on?"
+                    placeholder="Send me a message to receive GTA 6. Trust."
                   />
                 </div>
 
@@ -299,7 +323,7 @@ const ContactSection = () => {
                     className="relative z-10"
                     style={{ textShadow: '0 0 4px rgba(0,0,0,0.95)' }}
                   >
-                    Cast Message ✨
+                    Cast Message
                   </span>
                 </button>
               </form>

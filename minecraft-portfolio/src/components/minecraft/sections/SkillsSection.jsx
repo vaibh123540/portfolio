@@ -1,43 +1,52 @@
 // src/components/minecraft/sections/SkillsSection.jsx
 import React from 'react';
-import { Code2, Cpu, Cloud, Database } from 'lucide-react';
+import { Code2, Cpu, Globe, Database, Terminal, Layers } from 'lucide-react';
 
 const craftingSkills = [
-  { name: 'React', color: '#38BDF8', level: 5 },
-  { name: 'TypeScript', color: '#60A5FA', level: 5 },
-  { name: 'Node.js', color: '#22C55E', level: 5 },
-  { name: 'Python', color: '#0EA5E9', level: 4 },
-  { name: 'AWS', color: '#F97316', level: 4 },
-  { name: 'Docker', color: '#3B82F6', level: 4 },
-  { name: 'MongoDB', color: '#22C55E', level: 3 },
-  { name: 'GraphQL', color: '#EC4899', level: 3 },
-  { name: 'Next.js', color: '#FFFFFF', level: 5 },
+  // Row 1: Frontend Core
+  { name: 'React', icon: '/mc/react.png', level: 5 },
+  { name: 'Git', icon: '/mc/git.png', level: 5 },
+  { name: 'TypeScript', icon: '/mc/typescript.png', level: 4 },
+  
+  // Row 2: Backend & Systems
+  { name: 'Node.js', icon: '/mc/nodejs.png', level: 5 },
+  { name: 'Python', icon: '/mc/python.png', level: 4 },
+  { name: 'C / C++', icon: '/mc/c.png', level: 4 },
+  
+  // Row 3: App & Infra
+  { name: 'Java', icon: '/mc/java.png', level: 4 },
+  { name: 'SQL', icon: '/mc/sql.png', level: 4 },
+  { name: 'Docker', icon: '/mc/docker.png', level: 3 },
 ];
 
 const bars = [
   {
-    title: 'React & Next.js',
-    icon: Code2,
+    title: 'Frontend & UI',
+    subtitle: 'React, Next.js, Tailwind, Flutter',
+    icon: Globe,
     value: 95,
-    color: 'from-sky-400 to-emerald-400',
+    color: 'from-sky-400 to-indigo-400',
   },
   {
-    title: 'Node.js & APIs',
-    icon: Cloud,
+    title: 'Backend & Cloud',
+    subtitle: 'Node, Express, Supabase, Firebase',
+    icon: Database,
     value: 90,
-    color: 'from-emerald-400 to-lime-400',
+    color: 'from-emerald-400 to-teal-400',
   },
   {
-    title: 'Python & ML',
+    title: 'Systems & ML',
+    subtitle: 'C, Python, Ray Tracing, RL',
     icon: Cpu,
     value: 85,
-    color: 'from-cyan-400 to-sky-400',
+    color: 'from-amber-400 to-orange-500',
   },
   {
-    title: 'Databases & DevOps',
-    icon: Database,
+    title: 'Mobile & DevOps',
+    subtitle: 'Android (Java), Docker, Git',
+    icon: Layers,
     value: 88,
-    color: 'from-emerald-300 to-amber-300',
+    color: 'from-purple-400 to-pink-400',
   },
 ];
 
@@ -96,15 +105,15 @@ const SkillsSection = () => {
         {/* Recipe text – keep normal font, acts as subtitle */}
         <div className="flex items-center gap-2 text-[11px] sm:text-xs font-mono text-slate-100">
           <span className="text-emerald-300 uppercase tracking-[0.22em]">
-            Recipe
+            Recipe:
           </span>
           <span className="text-slate-200">
-            Production-ready full-stack app
+            Software Development Intern
           </span>
         </div>
       </div>
 
-      {/* Grid + bars directly on the plank texture (no big transparent slab) */}
+      {/* Grid + bars directly on the plank texture */}
       <div className="grid gap-5 md:gap-6 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-start">
         {/* Left: 3x3 crafting grid using hotbar slots */}
         <div className="space-y-3">
@@ -117,11 +126,8 @@ const SkillsSection = () => {
                 textShadow: '0 0 6px rgba(0,0,0,0.9)',
               }}
             >
-              3×3 CRAFTING GRID
+              3×3 GRID
             </h3>
-            <span className="text-[11px] font-mono text-slate-200/90">
-              each slot = core tool
-            </span>
           </div>
 
           <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
@@ -130,7 +136,7 @@ const SkillsSection = () => {
                 key={skill.name}
                 style={{ transitionDelay: `${80 + index * 40}ms` }}
                 className={`
-                  group relative aspect-square rounded-2xl overflow-hidden
+                  group relative aspect-square rounded-xl overflow-hidden
                   border border-black/80
                   shadow-[0_12px_24px_rgba(0,0,0,0.9)]
                   transform transition-all duration-500
@@ -150,43 +156,37 @@ const SkillsSection = () => {
                 />
 
                 {/* Content */}
-                <div className="relative z-10 flex flex-col items-center justify-center h-full px-2 text-center">
-                  {/* colored “item” square */}
-                  <div
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-[6px] border border-black/80 shadow-[0_0_0_1px_rgba(0,0,0,0.9)] mb-1.5"
-                    style={{ backgroundColor: skill.color }}
-                  />
+                <div className="relative z-10 flex flex-col items-center justify-center h-full p-2 text-center">
+                  
+                  {/* LOGO IMAGE HERE */}
+                  <div className="relative w-8 h-8 sm:w-10 sm:h-10 mb-1.5 transition-transform group-hover:scale-110 duration-300">
+                    <img 
+                      src={skill.icon} 
+                      alt={skill.name}
+                      className="w-full h-full object-contain drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]" 
+                    />
+                  </div>
 
-                  <span className="text-[11px] sm:text-xs font-mono font-semibold text-slate-50">
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold text-slate-100/90 leading-tight">
                     {skill.name}
                   </span>
 
-                  <div className="mt-1 flex gap-[3px]">
+                  {/* Level dots */}
+                  <div className="mt-1.5 flex gap-[2px]">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <span
                         key={i}
-                        className="h-[7px] w-[7px] rounded-[2px] border border-black/80 bg-black/60"
-                        style={
-                          i < skill.level
-                            ? { backgroundColor: skill.color }
-                            : undefined
-                        }
+                        className={`
+                          h-[3px] w-[3px] sm:h-[4px] sm:w-[4px] rounded-full 
+                          ${i < skill.level ? 'bg-emerald-400 shadow-[0_0_4px_#34d399]' : 'bg-slate-700'}
+                        `}
                       />
                     ))}
                   </div>
-
-                  <span className="mt-1 text-[10px] sm:text-[11px] font-mono text-slate-200">
-                    Lv.{skill.level} / 5
-                  </span>
                 </div>
               </div>
             ))}
           </div>
-
-          <p className="text-[11px] sm:text-xs font-mono text-slate-200/85 mt-1">
-            Pick any row: UI, backend, or infra — each crafts a solid piece of
-            the stack.
-          </p>
         </div>
 
         {/* Right: Specialization bars (wood texture background) */}
@@ -200,10 +200,10 @@ const SkillsSection = () => {
                 textShadow: '0 0 6px rgba(0,0,0,0.9)',
               }}
             >
-              SPECIALIZATIONS
+              STATS
             </h3>
             <span className="text-[11px] font-mono text-slate-300">
-              overall proficiency
+              experience points
             </span>
           </div>
 
@@ -215,7 +215,7 @@ const SkillsSection = () => {
                   key={bar.title}
                   style={{
                     transitionDelay: `${140 + index * 80}ms`,
-                    backgroundImage: "url('/mc/skills_wood.png')", // your wood asset
+                    backgroundImage: "url('/mc/skills_wood.png')", // ensure this asset exists or use oak_planks
                     backgroundSize: '128px 128px',
                     backgroundRepeat: 'repeat',
                     imageRendering: 'pixelated',
@@ -230,28 +230,33 @@ const SkillsSection = () => {
                     ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
                   `}
                 >
-                  <div className="pointer-events-none absolute inset-0 bg-black/40" />
+                  <div className="pointer-events-none absolute inset-0 bg-black/50" />
                   <div className="relative z-10">
-                    <div className="flex items-center justify-between gap-3 mb-2">
+                    <div className="flex items-center justify-between gap-3 mb-1">
                       <div className="flex items-center gap-2">
-                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-black/70 border border-white/10">
-                          <Icon className="h-4 w-4 text-emerald-300" />
+                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-black/40 border border-white/10">
+                          <Icon className="h-3.5 w-3.5 text-emerald-300" />
                         </span>
-                        <h4 className="text-xs sm:text-sm font-semibold text-slate-50">
-                          {bar.title}
-                        </h4>
+                        <div>
+                          <h4 className="text-xs sm:text-sm font-bold text-slate-50 leading-none">
+                            {bar.title}
+                          </h4>
+                          <p className="text-[10px] text-slate-300 font-mono mt-0.5">
+                            {bar.subtitle}
+                          </p>
+                        </div>
                       </div>
-                      <span className="text-[11px] font-mono text-slate-200">
+                      <span className="text-[11px] font-mono text-emerald-300 font-bold">
                         {bar.value}%
                       </span>
                     </div>
 
-                    <div className="h-2.5 rounded-full bg-black/70 border border-black/80 overflow-hidden">
+                    <div className="mt-2 h-2 rounded-full bg-black/60 border border-white/5 overflow-hidden">
                       <div
                         className={`
                           h-full rounded-full bg-gradient-to-r ${bar.color}
-                          shadow-[0_0_10px_rgba(34,197,94,0.6)]
-                          transition-all duration-700
+                          shadow-[0_0_10px_rgba(52,211,153,0.5)]
+                          transition-all duration-1000 ease-out
                         `}
                         style={{ width: mounted ? `${bar.value}%` : '0%' }}
                       />
@@ -262,8 +267,8 @@ const SkillsSection = () => {
             })}
           </div>
 
-          <p className="text-[11px] sm:text-xs font-mono text-emerald-300/90">
-            combine all 3 rows → full-stack build unlocked ✨
+          <p className="text-[11px] sm:text-xs font-mono text-emerald-300/90 text-center">
+            Tip: Combine 3x3 grid to craft complex systems.
           </p>
         </div>
       </div>
